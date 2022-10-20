@@ -1,0 +1,11 @@
+Model Information:
+* title:	Bingus
+* source:	https://sketchfab.com/3d-models/bingus-b32ac9d9663a4214ae9d444d21e9b03f
+* author:	dilbert1k (https://sketchfab.com/dilbert1k)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Bingus" (https://sketchfab.com/3d-models/bingus-b32ac9d9663a4214ae9d444d21e9b03f) by dilbert1k (https://sketchfab.com/dilbert1k) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

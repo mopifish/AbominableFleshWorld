@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/Shaders/blur.gdshader" type="Shader" id=1]
+[ext_resource path="res://Assets/Shaders/LCD.gdshader" type="Shader" id=2]
+[ext_resource path="res://Assets/Shaders/Dithering.gdshader" type="Shader" id=3]
+[ext_resource path="res://Main.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/psxdither.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/PostProcessing.gd" type="Script" id=6]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 1 )
+shader_param/blur_scale = Vector2( 0.35, 0.35 )
+shader_param/blur_samples = 20.0
+shader_param/blur_brightness = 1.5
+shader_param/enabled = false
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 2 )
+shader_param/enabled = false
+shader_param/lcd_opacity = 0.5
+shader_param/scanline_gap = 4
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = ExtResource( 3 )
+shader_param/col_depth = 15.0
+shader_param/dither_banding = true
+shader_param/dither_tex = ExtResource( 5 )
+
+[node name="PostProcessing" type="Node"]
+script = ExtResource( 6 )
+
+[node name="PSXLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Blur" type="ViewportContainer" parent="PSXLayer"]
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Viewport" type="Viewport" parent="PSXLayer/Blur"]
+size = Vector2( 320, 240 )
+handle_input_locally = false
+render_target_update_mode = 3
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+
+[node name="LCDOverlay" type="ViewportContainer" parent="PSXLayer/Blur/Viewport"]
+material = SubResource( 4 )
+margin_right = 320.0
+margin_bottom = 240.0
+mouse_filter = 2
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="PSXLayer/Blur/Viewport/LCDOverlay"]
+size = Vector2( 320, 240 )
+handle_input_locally = false
+render_target_update_mode = 3
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+
+[node name="Dithering" type="ViewportContainer" parent="PSXLayer/Blur/Viewport/LCDOverlay/Viewport"]
+material = SubResource( 6 )
+margin_right = 320.0
+margin_bottom = 240.0
+mouse_filter = 2
+
+[node name="Viewport" type="Viewport" parent="PSXLayer/Blur/Viewport/LCDOverlay/Viewport/Dithering"]
+size = Vector2( 320, 240 )
+handle_input_locally = false
+render_target_update_mode = 3
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+
+[node name="Main" parent="PSXLayer/Blur/Viewport/LCDOverlay/Viewport/Dithering/Viewport" instance=ExtResource( 4 )]
